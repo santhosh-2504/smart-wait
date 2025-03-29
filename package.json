@@ -24,7 +24,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/santhosh-2504/smart-wait.git"
+    "url": "git+https://github.com/santhosh-2504/smart-wait.git"
   },
   "bugs": {
     "url": "https://github.com/santhosh-2504/smart-wait/issues"

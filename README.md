@@ -1,6 +1,9 @@
 # Smart Wait
 Advanced promise-based timeout and retry utilities for Node.js
 
+![npm](https://img.shields.io/npm/v/smart-wait)
+![npm downloads](https://img.shields.io/npm/dm/smart-wait)
+
 ## Features
 - Cancellable timeouts
 - Retry with exponential backoff
