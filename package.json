@@ -1,0 +1,44 @@
+{
+  "name": "smart-wait",
+  "version": "1.0.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/test.js",
+    "coverage": "c8 npm test",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "timeout",
+    "retry",
+    "promise",
+    "scheduling",
+    "backoff"
+  ],
+  "author": {
+    "name": "Santhosh Kumar Anantha",
+    "email": "santhoshanantha58@gmail.com",
+    "url": "https://github.com/santhosh-2504"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santhosh-2504/smart-wait.git"
+  },
+  "bugs": {
+    "url": "https://github.com/santhosh-2504/smart-wait/issues"
+  },
+  "description": "Advanced promise-based timeout and retry utilities with cancellation and dynamic delay control",
+  "exports": {
+    ".": "./index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md"
+  ]
+}

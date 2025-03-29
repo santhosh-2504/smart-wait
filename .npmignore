@@ -1,0 +1,10 @@
+# Tests
+tests/
+
+# Version control
+.gitignore
+.github/
+
+# Documentation
+CHANGELOG.md
+DOCS.md
