@@ -1,31 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Wait - Landing Page</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Wait - Intelligent Timing Utilities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+        
+        body {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-box {
+            border: 1px solid #eee;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+        
+        .code-example {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Smart Wait</h1>
-    <p>Advanced promise-based timeout and retry utilities for Node.js</p>
-  </header>
+    <header>
+        <h1>🕒 Smart Wait</h1>
+        <p>Intelligent timing utilities for JavaScript applications</p>
+    </header>
 
-  <main>
     <section>
-      <h2>Test the Package</h2>
-      <button onclick="runBasicWait()">Run Basic Wait</button>
-      <button onclick="runRetry()">Run Retry</button>
-      <button onclick="runCancellableWait()">Run Cancellable Wait</button>
-      <div id="output"></div>
+        <h2>Installation</h2>
+        <div class="code-example">
+            <pre><code>npm install smart-wait</code></pre>
+            <p>or use CDN:</p>
+            <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/smart-wait@latest/dist/browser.js">&lt;/script></code></pre>
+        </div>
     </section>
-  </main>
 
-  <footer>
-    <p>© 2025 Santhosh Kumar Anantha</p>
-  </footer>
+    <section>
+        <h2>Live Demos</h2>
 
-  <script src="script.js"></script>
+        <div class="demo-box">
+            <h4>Basic Wait</h4>
+            <button onclick="runBasicWait()">Wait 2 seconds</button>
+            <div id="basic-wait-output"></div>
+        </div>
+
+        <div class="demo-box">
+            <h4>Cancellable Wait</h4>
+            <button onclick="startCancellableWait()">Start Wait</button>
+            <button onclick="cancelCurrentWait()">Cancel Wait</button>
+            <div id="cancellable-output"></div>
+        </div>
+
+        <div class="demo-box">
+            <h4>Retry with Backoff</h4>
+            <button onclick="runRetryDemo()">Simulate API Call</button>
+            <div id="retry-output"></div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Code Examples</h2>
+        
+        <div class="code-example">
+            <h5>Basic Usage</h5>
+            <pre><code>import { wait } from 'smart-wait';
+
+// Wait for 2 seconds
+await wait(2000);
+console.log('2 seconds later!');</code></pre>
+        </div>
+
+        <div class="code-example">
+            <h5>Cancellable Timeout</h5>
+            <pre><code>const { id, promise } = waitWithId(5000);
+
+// Cancel after 2 seconds
+setTimeout(() => cancelWait(id, 'User cancelled'), 2000);
+
+try {
+    await promise;
+} catch (err) {
+    console.error(err.message); // "User cancelled"
+}</code></pre>
+        </div>
+    </section>
+
+    <footer>
+        <p>📖 Documentation: <a href="https://github.com/yourusername/smart-wait">GitHub Repository</a></p>
+        <p>📦 Package: <a href="https://www.npmjs.com/package/smart-wait">NPM Page</a></p>
+        <p>© 2023 Smart Wait. MIT Licensed.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/smart-wait@latest/dist/browser.js"></script>
+    <script>
+        let currentWaitId = null;
+
+        async function runBasicWait() {
+            const output = document.getElementById('basic-wait-output');
+            output.innerHTML = 'Waiting... ⏳';
+            await smartWait.wait(2000);
+            output.innerHTML = '✅ Wait completed!';
+        }
+
+        async function startCancellableWait() {
+            const output = document.getElementById('cancellable-output');
+            output.innerHTML = 'Starting 5s wait...';
+            const { id, promise } = smartWait.waitWithId(5000);
+            currentWaitId = id;
+            
+            try {
+                await promise;
+                output.innerHTML = '✅ Wait completed!';
+            } catch (err) {
+                output.innerHTML = `❌ ${err.message}`;
+            }
+        }
+
+        function cancelCurrentWait() {
+            if (currentWaitId) {
+                smartWait.cancelWait(currentWaitId, 'User cancelled');
+                currentWaitId = null;
+            }
+        }
+
+        async function runRetryDemo() {
+            const output = document.getElementById('retry-output');
+            output.innerHTML = 'Starting retry demo...';
+            
+            try {
+                const result = await smartWait.waitWithRetry(
+                    async (attempt) => {
+                        if (attempt < 2) throw new Error('Simulated failure');
+                        return '✅ Success!';
+                    },
+                    { retries: 3, delay: 500, backoff: 'exponential' }
+                );
+                
+                output.innerHTML = result;
+            } catch (err) {
+                output.innerHTML = `❌ Failed after ${err.attempts} attempts`;
+            }
+        }
+    </script>
 </body>
 </html>
